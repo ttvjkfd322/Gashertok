@@ -1,0 +1,81 @@
+body {
+  background: #121212;
+  color: #f2f2f2;
+  font-family: sans-serif;
+  margin: 1rem;
+}
+
+input, textarea, button {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+  background: #1c1c1c;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+button {
+  background: #00ffc3;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+textarea {
+  height: 60px;
+  resize: vertical;
+}
+
+.hidden {
+  display: none;
+}
+
+#mainNav {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+  background: #222;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+#mainNav button {
+  flex: 1;
+  margin: 0 0.3rem;
+}
+
+.post-feed {
+  margin-top: 1rem;
+}
+
+.post {
+  border: 1px solid #333;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  background: #181818;
+  border-radius: 6px;
+}
+
+.comments {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-top: 0.5rem;
+}
+
+.comment-box input {
+  margin-top: 0.5rem;
+}
+
+.status-bar {
+  margin-top: 0.5rem;
+  padding: 0.4rem;
+  font-size: 0.9rem;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+}

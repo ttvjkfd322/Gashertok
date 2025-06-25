@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecurePost</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>SecurePost</h1>
+    <div id="userStatus"></div>
+  </header>
+
+  <!-- LOGIN/SIGNUP FORM -->
+  <section id="authSection">
+    <h2>Login or Sign Up</h2>
+    <input type="text" id="usernameInput" placeholder="Username" />
+    <input type="password" id="passwordInput" placeholder="Password" />
+    <div>
+      <button onclick="login()">Login</button>
+      <button onclick="signup()">Sign Up</button>
+    </div>
+    <p id="authMessage"></p>
+  </section>
+
+  <!-- POST FORM -->
+  <section id="postSection" class="hidden">
+    <h2>Post Something</h2>
+    <textarea id="postContent" placeholder="What's on your mind?" rows="3"></textarea>
+    <button onclick="submitPost()">Post</button>
+  </section>
+
+  <!-- POSTS DISPLAY -->
+  <section id="feedSection" class="hidden">
+    <h2>Public Feed</h2>
+    <div id="postFeed"></div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Social Site</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>🧑‍💻 My Social Website</h1>
+
+  <div id="userStatus" class="status-bar">Not logged in</div>
+
+  <!-- Navigation -->
+  <nav id="mainNav" class="hidden">
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('profile')">👤 Profile</button>
+    <button onclick="showPage('settings')">⚙️ Settings</button>
+  </nav>
+
+  <!-- Auth Section -->
+  <section id="authSection">
+    <h2>Login / Signup</h2>
+    <input type="text" id="usernameInput" placeholder="Username"><br>
+    <input type="password" id="passwordInput" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+    <button onclick="signup()">Sign Up</button>
+    <p id="authMessage"></p>
+  </section>
+
+  <!-- Home Page -->
+  <section id="homePage" class="page hidden">
+    <div id="postSection">
+      <h2>Create Post</h2>
+      <textarea id="postContent" placeholder="What's on your mind?"></textarea><br>
+      <button onclick="submitPost()">Post</button>
+    </div>
+
+    <div id="feedSection">
+      <h2>Public Feed</h2>
+      <input type="text" id="filterInput" placeholder="Filter posts..." oninput="filterPosts()" />
+      <div id="postFeed" class="post-feed"></div>
+    </div>
+  </section>
+
+  <!-- Profile Page -->
+  <section id="profilePage" class="page hidden">
+    <h2>Your Profile</h2>
+    <p>Profile info coming soon...</p>
+  </section>
+
+  <!-- Settings Page -->
+<section id="settingsPage" class="page hidden">
+  <h2>⚙️ Settings</h2>
+
+  <div class="setting-item">
+    <label for="themeToggle">🌗 Dark Mode</label>
+    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+  </div>
+
+  <div class="setting-item">
+    <h4>🔒 Change Password</h4>
+    <input type="password" id="newPasswordInput" placeholder="New password">
+    <button onclick="changePassword()">Change Password</button>
+  </div>
+
+  <div class="setting-item">
+    <button onclick="logout()">🚪 Log Out</button>
+  </div>
+
+  <div class="setting-item">
+    <button onclick="deleteAccount()" style="background: #ff4d4d;">🗑️ Delete Account</button>
+  </div>
+
+  <p id="settingsMessage"></p>
+</section>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
+</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Video Embed Post</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+  textarea { width: 100%; height: 50px; font-size: 1rem; }
+  button { padding: 0.5rem 1rem; margin-top: 0.5rem; font-size: 1rem; cursor: pointer; }
+  .video-post { margin: 1rem 0; }
+  iframe { width: 100%; height: 315px; border: none; }
+</style>
+</head>
+<body>
+
+<h2>Post a Video Link (YouTube or Vimeo)</h2>
+<textarea id="videoUrl" placeholder="Paste YouTube or Vimeo link here"></textarea>
+<button onclick="postVideo()">Post Video</button>
+
+<div id="videoFeed"></div>
+
+<script>
+function postVideo() {
+  const url = document.getElementById("videoUrl").value.trim();
+  if (!url) {
+    alert("Please enter a video URL.");
+    return;
+  }
+
+  // Validate URL contains YouTube or Vimeo
+  if (!url.includes("youtube.com") && !url.includes("youtu.be") && !url.includes("vimeo.com")) {
+    alert("Only YouTube or Vimeo URLs are supported.");
+    return;
+  }
+
+  const embedUrl = convertToEmbed(url);
+  if (!embedUrl) {
+    alert("Could not parse the video URL.");
+    return;
+  }
+
+  const videoFeed = document.getElementById("videoFeed");
+  const videoDiv = document.createElement("div");
+  videoDiv.className = "video-post";
+  videoDiv.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+  
+  // Add the new video at the top of the feed
+  videoFeed.prepend(videoDiv);
+  
+  // Clear textarea
+  document.getElementById("videoUrl").value = "";
+}
+
+function convertToEmbed(url) {
+  // YouTube short links
+  if (url.includes("youtu.be")) {
+    const videoId = url.split("youtu.be/")[1].split(/[?&]/)[0];
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+  // YouTube normal links
+  if (url.includes("youtube.com/watch")) {
+    const videoId = new URL(url).searchParams.get("v");
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+  }
+  // Vimeo links
+  if (url.includes("vimeo.com")) {
+    const parts = url.split("/");
+    const videoId = parts[parts.length - 1].split(/[?&]/)[0];
+    return `https://player.vimeo.com/video/${videoId}`;
+  }
+  return null;
+}
+</script>
+
+</body>
+</html>
